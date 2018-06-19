@@ -39,6 +39,11 @@ app.get('/api/getBookById', function(request, response){
     response.send(lib.getBookById(id));
 })
 
+app.get('/api/getBookByParam', function(request, response){
+    let param = request.query.value;
+    response.send(lib.getBooksByParam(param));
+})
+
 app.delete('/api/deleteBook', function(request, response){
     let id = request.query.id;
     response.send(library.deleteBook(id));
