@@ -27,6 +27,13 @@ app.post('/api/addBook', function(request, response){ //CREATING THE SECOND ROUT
     response.send(library.getBooks());
 })
 
+app.put('/api/updateBook', function(request, response){
+    let id = request.query.id;
+    let body = request.body;
+    library.updateBook(id, new Book(body.name, body.author, body.year, id));
+    response.send(library.getBooks());
+})
+
 var fs = require('fs');
 
 function Book(name, author, year, id){
