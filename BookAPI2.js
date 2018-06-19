@@ -34,6 +34,11 @@ app.put('/api/updateBook', function(request, response){
     response.send(library.getBooks());
 })
 
+app.get('/api/getBookById', function(request, response){
+    let id = request.query.id;
+    response.send(lib.getBookById(id));
+})
+
 app.delete('/api/deleteBook', function(request, response){
     let id = request.query.id;
     response.send(library.deleteBook(id));
