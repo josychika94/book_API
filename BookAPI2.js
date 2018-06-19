@@ -91,6 +91,7 @@ Library.prototype.getBookById = function(id){
 };
 
 Library.prototype.getBookByIndex = function(id){
+    this.books = this.getLibrary();
     for (let i = 0; i < this.books.length; i++){
         if(this.books[i].id == id){
             return i;
