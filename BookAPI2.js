@@ -49,6 +49,11 @@ app.delete('/api/deleteBook', function(request, response){
     response.send(library.deleteBook(id));
 })
 
+app.get('/api/borrowBook', function(request, response){
+    let id = request.query.id;
+    response.send(lib.borrowBook(id));
+})
+
 var fs = require('fs');
 
 function Book(name, author, year, id){
