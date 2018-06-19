@@ -34,6 +34,11 @@ app.put('/api/updateBook', function(request, response){
     response.send(library.getBooks());
 })
 
+app.delete('/api/deleteBook', function(request, response){
+    let id = request.query.id;
+    response.send(library.deleteBook(id));
+})
+
 var fs = require('fs');
 
 function Book(name, author, year, id){
