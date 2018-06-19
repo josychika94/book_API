@@ -19,31 +19,31 @@ app.get('/', function(request, response){ //CREATING OUR DEFAULT ROUTE WHICH IS 
     response.send(library.getBooks()); //REQUEST A REPONSE 
     
 });
-
+//a route for adding book
 app.post('/api/addBook', function(request, response){ //CREATING THE SECOND ROUTE /API/BOOK
     let params = request.body;
     let book = new Book(params.name, params.author, params.year, Math.random);
     library.addBook(book);
     response.send(library.getBooks());
 })
-
+//a route for updating book
 app.put('/api/updateBook', function(request, response){
     let id = request.query.id;
     let body = request.body;
     library.updateBook(id, new Book(body.name, body.author, body.year, id));
     response.send(library.getBooks());
 })
-
+//a route for getting book by id
 app.get('/api/getBookById', function(request, response){
     let id = request.query.id;
     response.send(library.getBookById(id));
 })
-
+//a route for getting book by parameter
 app.get('/api/getBookByParam', function(request, response){
     let param = request.query.value;
     response.send(library.getBooksByParam(param));
 })
-
+//a route for deleting book
 app.delete('/api/deleteBook', function(request, response){
     let id = request.query.id;
     response.send(library.deleteBook(id));
@@ -60,29 +60,22 @@ app.get('/api/returnBook', function(request, response){
 })
 
 app.get('/api/checkBorrowedBooks', function(request, response){
-    response.send(lib.checkBorrowedBooks());
+    response.send(library.checkBorrowedBooks());
 })
 
-
+//declaring a requiring the file system
 var fs = require('fs');
-
+//creating the book function
 function Book(name, author, year, id){
     this.name = name;
     this.author = author;
     this.year = year;
     this.id = id;
 }
-
+//creating the library function
 function Library(name){
     this.name = name;
-    //object.defineProperty(this, 'books',{
-    //value = [],
-    //enumerable: false
-    //configurable: true 
-    //writable: true
-    //    })
     this.books = [];
-    //this.books = fs.readFileSync('./data.json', 'utf-8');
     this.borrowedBooks = [];
 }
 
@@ -94,18 +87,18 @@ Library.prototype.updateLibrary = function(){
     return fs.writeFileSync('./data.json', JSON.stringify(this.books));
 
 }
-
+// a method that adds book to the library
 Library.prototype.addBook = function(book){
     this.books = this.getLibrary();
     this.books.push(book);
     this.updateLibrary(this.books);
 };
-
+//a method that gets all books from the library
 Library.prototype.getBooks = function(){
     this.books = this.getLibrary();
     return this.books;
 };
-
+//a method that gets book using id 
 Library.prototype.getBookById = function(id){
     this.books = this.getLibrary();
     for(let i = 0; i < this.books.length; i++){
@@ -114,7 +107,7 @@ Library.prototype.getBookById = function(id){
         }
     }
 };
-
+//a method that gets book using index
 Library.prototype.getBookByIndex = function(id){
     this.books = this.getLibrary();
     for (let i = 0; i < this.books.length; i++){
@@ -123,14 +116,14 @@ Library.prototype.getBookByIndex = function(id){
         }
     }
 };
-
+//a method for deleting book from the library
 Library.prototype.deleteBook = function(id){
     let bookIndex = this.getBookByIndex(id);
     this.books.splice(bookIndex, 1);
     this.updateLibrary(this.books); 
 };
-
-Library.prototype.updateBook = function(id, param, value){
+//upadating method
+Library.prototype.updateBook = function(id, updatedBooks){
     let index = this.getBookByIndex(id);
     this.books[bookIndex] = updatedBook;
     this.updateLibrary(this.books);
@@ -164,11 +157,7 @@ Library.prototype.returnBook = function(id){
             var bookIndex = i;
         }
     }
-
-    //adds book back to the library
-    this.addBook(book);
-
-    //removes book from the borrowed books array
+   
     this.borrowedBooks.splice(bookIndex, 1);
     fs.writeFileSync('./borrowedBooks.json', JSON.stringify(this.borrowedBooks));
 
