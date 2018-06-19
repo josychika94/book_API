@@ -62,7 +62,7 @@ function Library(name){
 }
 
 Library.prototype.getLibrary = function(){
-    return JSON.parse(fs.readFileSync('./data.json', 'utf-8'));
+    return JSON.parse(fs.readFileSync('./data.json'));
 }
 
 Library.prototype.updateLibrary = function(){
@@ -71,15 +71,15 @@ Library.prototype.updateLibrary = function(){
 }
 
 Library.prototype.addBook = function(book){
+    this.books = this.getLibrary();
     this.books.push(book);
-    this.book = this.updateLibrary(this.books);
-    fs.writeFileSync('./data.json', JSON.stringify(this.books));
+    this.updateLibrary(this.books);
 };
 
-Library.prototype.getBooks = function(){ //READS DATA BASE AND SENDS RESPONDS
-   this.books = JSON.parse(fs.readFileSync('./data.json'));
+Library.prototype.getBooks = function(){
+    this.books = this.getLibrary();
     return this.books;
-}
+};
 
 Library.prototype.getBookById = function(id){
     this.books = this.getLibrary();
