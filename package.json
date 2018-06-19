@@ -1,0 +1,14 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "a software with node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chika Josephine",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
