@@ -36,22 +36,27 @@ app.put('/api/updateBook', function(request, response){
 
 app.get('/api/getBookById', function(request, response){
     let id = request.query.id;
-    response.send(lib.getBookById(id));
+    response.send(library.getBookById(id));
 })
 
 app.get('/api/getBookByParam', function(request, response){
     let param = request.query.value;
-    response.send(lib.getBooksByParam(param));
+    response.send(library.getBooksByParam(param));
 })
 
 app.delete('/api/deleteBook', function(request, response){
     let id = request.query.id;
     response.send(library.deleteBook(id));
 })
-
+//a route for borrowed books
 app.get('/api/borrowBook', function(request, response){
     let id = request.query.id;
-    response.send(lib.borrowBook(id));
+    response.send(library.borrowBook(id));
+})
+
+app.get('/api/returnBook', function(request, response){
+    let id = request.query.id;
+    response.send(library.returnBook(id));
 })
 
 var fs = require('fs');
