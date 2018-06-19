@@ -105,15 +105,14 @@ Library.prototype.deleteBook = function(id){
     this.updateLibrary(this.books); 
 };
 
-Library.prototype.updateBook = function(id, updateBook){
-    let bookIndex = this.getBookIndex(id);
+Library.prototype.updateBook = function(id, param, value){
+    let index = this.getBookByIndex(id);
     this.books[bookIndex] = updatedBook;
-        //let currentBook = this.getBookById(id);
-        //this.books = this.books.map(function (book){
-            //return book.id === id ? updateBook : book;
+    this.updateLibrary(this.books);
 };
 
 Library.prototype.getBooksByParam = function(param, value){
+    this.books = this.getLibrary();
     let books = [];
     for(let i = 0; i < this.books.length; i++){
         if (this.books[i][param] == value){
@@ -122,6 +121,41 @@ Library.prototype.getBooksByParam = function(param, value){
     }
     return books;
 };
+
+Library.prototype.borrowBook = function(id){
+    var book =  this.getBookById(id);
+    this.borrowedBooks.push(book);
+    fs.writeFileSync('./borrowedBooks.json', JSON.stringify(this.borrowedBooks));
+
+    this.deleteBook(id);
+   
+}
+
+Library.prototype.returnBook = function(id){
+    this.borrowedBooks = JSON.parse(fs.readFileSync('./borrowedBooks.json'));
+    for (let i = 0; i < this.borrowedBooks.length; i++){
+        if(this.borrowedBooks[i].id == id){
+            var book = this.borrowedBooks[i];
+            var bookIndex = i;
+        }
+    }
+
+    //adds book back to the library
+    this.addBook(book);
+
+    //removes book from the borrowed books array
+    this.borrowedBooks.splice(bookIndex, 1);
+    fs.writeFileSync('./borrowedBooks.json', JSON.stringify(this.borrowedBooks));
+
+    var message = `You just returned ${book.title} by ${book.author} (${book.year}).`;
+    return message;
+}
+
+Library.prototype.checkBorrowedBooks = function(){
+    this.borrowedBooks = JSON.parse(fs.readFileSync('./borrowedBooks.json'));
+    if (this.borrowedBooks.length < 1) return 'No books have been borrowed';
+    else return this.borrowedBooks;
+}
 
 var newBook1 = new Book ('go', 'Chika', 2000, 1);
 var newBook2 = new Book('what is your age', 'Chinonso', 2012, 5);
