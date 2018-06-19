@@ -58,10 +58,11 @@ function Library(name){
     //    })
     this.books = [];
     //this.books = fs.readFileSync('./data.json', 'utf-8');
+    this.borrowedBooks = [];
 }
 
 Library.prototype.getLibrary = function(){
-    return JSON.parse(fs.readFileSync('./data.json'));
+    return JSON.parse(fs.readFileSync('./data.json', 'utf-8'));
 }
 
 Library.prototype.updateLibrary = function(){
