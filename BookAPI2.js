@@ -59,6 +59,11 @@ app.get('/api/returnBook', function(request, response){
     response.send(library.returnBook(id));
 })
 
+app.get('/api/checkBorrowedBooks', function(request, response){
+    response.send(lib.checkBorrowedBooks());
+})
+
+
 var fs = require('fs');
 
 function Book(name, author, year, id){
